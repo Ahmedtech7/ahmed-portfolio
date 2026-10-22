@@ -15,3 +15,5 @@ npm run build    # static output in dist/
 - Organization logos were downloaded from each organization's official website or official LinkedIn page.
 
 Deployed on Vercel (Hobby). `vercel.json` sets security and caching headers.
+
+Live: https://ahmed-alhejaili.vercel.app
