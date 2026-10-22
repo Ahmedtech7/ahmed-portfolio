@@ -34,6 +34,22 @@
     });
   }
 
+  // Late-night visitors (00:00–05:00 local time) get a nod in the footer. ?night forces it for testing.
+  const h = new Date().getHours();
+  if (h < 5 || new URLSearchParams(location.search).has('night')) document.querySelector<HTMLElement>('[data-night]')!.hidden = false;
+
+  // A bug walks across the footer; clicking it squashes it.
+  const bug = document.querySelector<HTMLButtonElement>('[data-bug]')!;
+  const msg = document.querySelector<HTMLElement>('[data-bug-msg]')!;
+  bug.addEventListener('click', () => {
+    bug.classList.add('squashed');
+    const r = bug.getBoundingClientRect();
+    msg.style.setProperty('--x', `${Math.min(Math.max(r.left + r.width / 2, 110), innerWidth - 110)}px`);
+    bug.disabled = true;
+    msg.textContent = 'Bug fixed ✓ (finally)';
+    setTimeout(() => (msg.textContent = ''), 3000);
+  });
+
   // Konami code → coffee rain + achievement.
   const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   const badge = document.querySelector<HTMLElement>('[data-achievement]')!;
