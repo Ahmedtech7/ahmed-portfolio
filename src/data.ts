@@ -24,7 +24,7 @@ import logoMCIT from './assets/logos/mcit-white.svg';
 
 export const person = {
   name: 'Ahmed Alhejaili',
-  title: 'AI Engineer | Computer Science Graduate',
+  title: 'AI Engineer & Computer Science Graduate',
   email: 'ahmed6tech@gmail.com',
   phoneDisplay: '+966 53 707 6353',
   phoneHref: 'tel:+966537076353',
@@ -274,6 +274,8 @@ export const programs = [
     period: 'Sep — Nov 2026',
     status: 'Ongoing',
     rank: 'TOP 1',
+    place: 1,
+    applicants: 5000,
     among: 'Among 5,000+ Applicants',
     line: 'A selective program with the Ministry of Communications and Information Technology, focused on building and deploying AI solutions.',
     topics: ['AI Engineering', 'Building AI Solutions', 'Deployment'],
@@ -286,6 +288,8 @@ export const programs = [
     period: 'Jun — Aug 2026',
     status: 'Completed',
     rank: 'TOP 2',
+    place: 2,
+    applicants: 6000,
     among: 'Among 6,000+ Applicants',
     line: 'A selective program focused on large language models, AI agents and agentic AI systems.',
     topics: ['LLMs', 'AI Agents', 'Agentic AI'],

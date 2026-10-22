@@ -1,0 +1,24 @@
+---
+// One dot per applicant (125 per row), drawn as a single SVG pattern so thousands of dots cost one element.
+interface Props { rank: number; total: number; id: string }
+const { rank, total, id } = Astro.props;
+const cols = 125;
+const rows = Math.ceil(total / cols);
+const x = ((rank - 1) % cols) + 0.5;
+const y = Math.floor((rank - 1) / cols) + 0.5;
+---
+<figure class="field">
+  <svg viewBox={`0 0 ${cols} ${rows}`} role="img" aria-label={`${total.toLocaleString('en-US')} applicant dots; Ahmed's dot is number ${rank}.`}>
+    <defs>
+      <pattern id={id} width="1" height="1" patternUnits="userSpaceOnUse">
+        <circle class="crowd" cx="0.5" cy="0.5" r="0.2" />
+      </pattern>
+      <radialGradient id={`${id}-halo`}><stop offset="0" stop-color="#ff6b3d" stop-opacity="0.55" /><stop offset="1" stop-color="#ff6b3d" stop-opacity="0" /></radialGradient>
+    </defs>
+    <rect width={cols} height={rows} fill={`url(#${id})`} />
+    <circle cx={x} cy={y} r="3.2" fill={`url(#${id}-halo)`} />
+    <circle class="ring" cx={x} cy={y} r="0.9" />
+    <circle class="me" cx={x} cy={y} r="0.7" />
+  </svg>
+  <figcaption><span><b>●</b> Ahmed — No. {rank}</span><span>{total.toLocaleString('en-US')} dots · one per applicant</span></figcaption>
+</figure>
