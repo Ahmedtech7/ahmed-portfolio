@@ -248,7 +248,7 @@ export const hackathons: Hackathon[] = [
     logos: [logos.kfu],
   },
   {
-    date: '2025',
+    date: 'Jul 2025',
     event: 'AMAD FinTech Hackathon',
     host: 'Tuwaiq Academy × alinma',
     role: 'Finalist',
