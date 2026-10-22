@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { Picture, getImage } from 'astro:assets';
-import serifUrl from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+import displayUrl from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
 import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 import Icon from '../components/Icon.astro';
@@ -24,8 +24,6 @@ const fullCerts = await Promise.all(
 const num = (i: number) => String(i + 1).padStart(2, '0');
 const newTab = { target: '_blank', rel: 'noopener noreferrer' };
 const [olo, sani] = programs;
-// Hero deck: three visually distinct live apps, front card first.
-const deck = ['digital-twin', 'ecosync', 'data-sentinel'].map((id) => projects.find((p) => p.id === id)!);
 
 // Where a linked skill points, in words, so the chip can say what proves it.
 const proofOf = (href: string) => {
@@ -53,12 +51,12 @@ const jsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={displayUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#f4f0e8" />
+    <meta name="theme-color" content="#f3f3ef" />
     <meta name="format-detection" content="telephone=no" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
@@ -81,7 +79,7 @@ const jsonLd = {
 
     <header class="nav-bar">
       <div class="wrap">
-        <a class="brand" href="#home"><b>AA<i>.</i></b><span>Ahmed Alhejaili</span><span class="sr-only">, back to top</span></a>
+        <a class="brand" href="#home"><i aria-hidden="true">AA</i><span>Ahmed Alhejaili</span><span class="sr-only">Ahmed Alhejaili, back to top</span></a>
         <nav class="links" aria-label="Sections">
           {sections.map(([id, label]) => <a href={`#${id}`} data-nav={id}>{label}</a>)}
         </nav>
@@ -103,36 +101,17 @@ const jsonLd = {
     <main id="main">
       <!-- 01 Home -->
       <section id="home" class="hero" aria-labelledby="home-title">
+        <div class="aura" aria-hidden="true"></div>
         <div class="wrap">
-          <div class="hero-grid">
-            <div>
-              <p class="kicker mono fade"><b>01 — Home</b><span>AI Engineer | Computer Science Graduate</span></p>
-              <h1 id="home-title" class="name">
-                <span class="line"><span>Ahmed</span></span>
-                <span class="line"><span><em>Alhejaili</em><span class="caret-dot" aria-hidden="true"></span></span></span>
-              </h1>
-              <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
-              <p class="support fade">I design RAG pipelines, AI agents and machine-learning models, then ship them as live software you can open today.</p>
-              <div class="ctas fade late">
-                <a class="btn primary" href="#projects">View projects <span class="arrow" aria-hidden="true">↘</span></a>
-                <a class="btn" href={person.twin} {...newTab}>Talk to my Digital Twin <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
-                <a class="btn" href={person.github} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-                <a class="btn" href={person.linkedin} {...newTab}><Icon name="linkedin" /> LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-              </div>
-            </div>
-            <div class="fade late">
-              <ul class="stack" aria-label="Live apps">
-                {deck.map((p, k) => (
-                  <li class="app-card">
-                    <a href={p.live} {...newTab}>
-                      <span class="bar" aria-hidden="true"><i></i>{new URL(p.live).host}</span>
-                      <Picture src={p.shot} alt={`${p.title}, live app (opens in a new tab)`} formats={['avif']} fallbackFormat="webp" widths={[480, 720, 960]} sizes="(min-width: 1000px) 30rem, 82vw" quality={60} loading={k === 0 ? 'eager' : 'lazy'} decoding="async" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <p class="app-note"><a href="#projects"><i class="dot ok"></i>{projects.length} live AI applications — see all projects <span class="arrow" aria-hidden="true">↘</span></a></p>
-            </div>
+          <p class="kicker mono fade"><b>01 — Home</b><span>AI Engineer | Computer Science Graduate</span></p>
+          <h1 id="home-title" class="name"><span class="rise">Ahmed</span><span class="line2 rise d2">Alhejaili</span></h1>
+          <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
+          <p class="support fade">I design RAG pipelines, AI agents and machine-learning models, then ship them as live software you can open today.</p>
+          <div class="ctas fade late">
+            <a class="btn primary" href="#projects">View projects <span class="arrow" aria-hidden="true">↘</span></a>
+            <a class="btn" href={person.twin} {...newTab}>Talk to my Digital Twin <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+            <a class="btn" href={person.github} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+            <a class="btn" href={person.linkedin} {...newTab}><Icon name="linkedin" /> LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
           </div>
           <ul class="highlights fade late" aria-label="Highlights">
             <li><a href="#education"><span class="fig">{education.gpa}<small> / {education.gpaOf} GPA</small></span><span class="what"><b>{education.honors}</b>B.Sc. Computer Science, {education.school}</span></a></li>
@@ -188,12 +167,12 @@ const jsonLd = {
       </section>
 
       <!-- 04 Projects -->
-      <section id="projects" aria-labelledby="projects-title">
+      <section id="projects" class="projects-intro" aria-labelledby="projects-title">
         <div class="wrap">
-          <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="deck mono">{projects.length} live on Vercel · click a screenshot to open the app</span></header>
-          {projects.map((p, i) => <ProjectCard p={p} i={i} />)}
+          <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="deck">{projects.length} AI applications, live on Vercel. Click any screenshot to open the real app.</span></header>
         </div>
       </section>
+      {projects.map((p, i) => <ProjectCard p={p} i={i} total={projects.length} />)}
 
       <!-- 05 Skills -->
       <section id="skills" aria-labelledby="skills-title">
@@ -231,7 +210,7 @@ const jsonLd = {
             {hackathons.map((h) => (
               <li class="reveal">
                 <span class="date">{h.date}</span>
-                <span class="plate-sm">{h.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 37 : 29} />)}</span>
+                <span class="plate">{h.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 37 : 29} />)}</span>
                 <div>
                   <h3>{h.event}{h.project && <> · <em>{h.project}</em></>}</h3>
                   <p class="host">{h.host}</p>
@@ -248,7 +227,7 @@ const jsonLd = {
       </section>
 
       <!-- 07 Programs -->
-      <section id="programs" aria-labelledby="programs-title">
+      <section id="programs" class="programs-sec" aria-labelledby="programs-title">
         <div class="wrap">
           <header class="sec-head"><span class="num">07</span><h2 id="programs-title">Programs</h2><span class="deck mono">Selected from thousands of applicants</span></header>
           <div class="programs">
@@ -283,13 +262,13 @@ const jsonLd = {
             {certificates.map((c, i) => (
               <li class="cert reveal">
                 <button type="button" class="mat" data-full={fullCerts[i]!.src} data-title={c.title} data-pdf={c.pdf} data-verify={c.verify ?? ''} aria-label={`Enlarge certificate: ${c.title}`}>
-                  <Picture src={c.image} alt="" formats={['avif']} fallbackFormat="webp" widths={[600, 900, 1200]} sizes="(min-width: 1300px) 36rem, (min-width: 760px) 46vw, 100vw" quality={72} loading="lazy" decoding="async" />
+                  <Picture src={c.image} alt="" formats={['avif']} fallbackFormat="webp" widths={[640, 960, 1280]} sizes="(min-width: 1600px) 44rem, (min-width: 760px) 46vw, 100vw" quality={72} loading="lazy" decoding="async" />
                 </button>
                 <div class="label">
                   <span class="no">No. {num(i)}</span>
                   <h3>{c.title}</h3>
                   <p class="meta">{c.issuer} · {c.date}</p>
-                  <p class="links">
+                  <p class="cert-links">
                     <a href={c.pdf} {...newTab}>View PDF<span class="sr-only"> of {c.title} (opens in a new tab)</span></a>
                     {c.verify ? (
                       <a href={c.verify} {...newTab}>Verify credential ↗<span class="sr-only"> {c.title} on Coursera (opens in a new tab)</span></a>

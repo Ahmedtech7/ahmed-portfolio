@@ -3,43 +3,54 @@ import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import type { Project } from '../data';
 
-interface Props { p: Project; i: number }
-const { p, i } = Astro.props;
+interface Props { p: Project; i: number; total: number }
+const { p, i, total } = Astro.props;
 const newTab = { target: '_blank', rel: 'noopener noreferrer' };
 const host = new URL(p.live).host;
+// Each world is tinted after its own app's palette (pale wash + deep title tone).
+const worlds: Record<string, [string, string]> = {
+  'digital-twin': ['#e3e8fb', '#0f1a4d'],
+  ecosync: ['#e2f0e8', '#0f4a32'],
+  nextbest: ['#ebe6fb', '#33207a'],
+  fraudguard: ['#e1ecfb', '#0b3a7a'],
+  'data-sentinel': ['#e7e8fb', '#1f2a8f'],
+};
+const [tint, tone] = worlds[p.id] ?? ['#e7e9fb', '#121a6b'];
 ---
-<article class="proj" id={`project-${p.id}`} aria-labelledby={`p-${p.id}`}>
-  <div class="proj-top mono">
-    <p><span class="n">{String(i + 1).padStart(2, '0')} / 05</span><span class="cat">{p.category}</span></p>
-    <p class="muted">{host}</p>
-  </div>
-  <a class="frame reveal" href={p.live} {...newTab}>
-    <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url"><i></i>{host}</span><span>↗</span></span>
-    <Picture
-      src={p.shot}
-      alt={`Screenshot of the live ${p.title} application`}
-      formats={['avif']}
-      fallbackFormat="webp"
-      widths={[640, 960, 1280, 1440]}
-      sizes="(min-width: 1300px) 73rem, 94vw"
-      quality={72}
-      loading="lazy"
-      decoding="async"
-    />
-    <span class="open">Open live app ↗<span class="sr-only"> {p.title} (opens in a new tab)</span></span>
-  </a>
-  <div class="proj-body">
+<article class="world" id={`project-${p.id}`} aria-labelledby={`p-${p.id}`} style={`--tint:${tint};--tone:${tone}`}>
+  <div class="wrap">
+    <div class="world-top mono">
+      <p><span class="n">{String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>{p.category}</p>
+      <p>{host}</p>
+    </div>
     <h3 id={`p-${p.id}`}><a href={p.live} {...newTab}>{p.title}<span class="sr-only"> (opens in a new tab)</span></a></h3>
-    <div>
+    <a class="frame reveal" href={p.live} {...newTab}>
+      <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url"><i></i>{host}</span><span>↗</span></span>
+      <Picture
+        src={p.shot}
+        alt={`Screenshot of the live ${p.title} application`}
+        formats={['avif']}
+        fallbackFormat="webp"
+        widths={[640, 960, 1280, 1440]}
+        sizes="(min-width: 1600px) 90rem, 92vw"
+        quality={74}
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="open">Open live app ↗<span class="sr-only"> {p.title} (opens in a new tab)</span></span>
+    </a>
+    <div class="world-body">
       <p>{p.blurb}</p>
-      <ul class="tags" aria-label="Technologies">{p.tags.map((t) => <li class="tag">{t}</li>)}</ul>
-      <div class="proj-links">
-        <a class="btn primary" href={p.live} {...newTab}>Live demo <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> of {p.title} (opens in a new tab)</span></a>
-        {p.repo ? (
-          <a class="btn" href={p.repo} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> repository for {p.title} (opens in a new tab)</span></a>
-        ) : (
-          <span class="private"><Icon name="github" /> Private repository</span>
-        )}
+      <div>
+        <ul class="tags" aria-label="Technologies">{p.tags.map((t) => <li class="tag">{t}</li>)}</ul>
+        <div class="proj-links">
+          <a class="btn primary" href={p.live} {...newTab}>Live demo <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> of {p.title} (opens in a new tab)</span></a>
+          {p.repo ? (
+            <a class="btn" href={p.repo} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> repository for {p.title} (opens in a new tab)</span></a>
+          ) : (
+            <span class="private"><Icon name="github" /> Private repository</span>
+          )}
+        </div>
       </div>
     </div>
   </div>

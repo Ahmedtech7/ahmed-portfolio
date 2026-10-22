@@ -6,25 +6,14 @@ const first = render(tokenize(files[0]!.code), Infinity, false);
 const lineCount = files[0]!.code.split('\n').length;
 ---
 <section id="ahmed-os" class="os" aria-labelledby="os-title">
-  <div class="wrap os-head">
-    <p class="mono os-kicker">Ahmed OS — an interlude</p>
-    <h2 id="os-title">A Little Code. <em>A Little Chaos.</em></h2>
-    <p class="os-note"><i class="dot cool"></i>Just for fun, lol · illustrative jokes, not real code</p>
-  </div>
+  <h2 id="os-title" class="os-kicker">Ahmed OS</h2>
 
   <div class="os-stage">
-    <ul class="os-chips mono" aria-hidden="true">
-      <li><i class="dot ok"></i>python · running</li>
-      <li><i class="dot hot"></i>humor mode · on</li>
-      <li><i class="dot warm"></i>coffee · required</li>
-      <li><i class="dot cool"></i>just for fun lol</li>
-    </ul>
-
     <div class="laptop" aria-hidden="true">
       <div class="lid">
         <span class="cam"></span>
         <div class="screen" data-os>
-          <div class="titlebar"><span class="lights"><i></i><i></i><i></i></span><span>ahmed-os — ~/just-for-fun</span><span></span></div>
+          <div class="titlebar"><span class="lights"><i></i><i></i><i></i></span><span>ahmed-os — ~/workspace</span><span></span></div>
           <div class="tabs">
             {files.map((f, i) => (
               <button type="button" tabindex="-1" class={i === 0 ? 'tab on' : 'tab'} data-tab={i}><i class="py"></i>{f.name}</button>
@@ -35,11 +24,10 @@ const lineCount = files[0]!.code.split('\n').length;
             <div class="code" data-code set:html={first.html} />
           </div>
           <div class="status">
-            <span><i class="dot ok"></i>python · running</span>
+            <span><i class="dot"></i>Python 3.13</span>
             <span class="hide-sm">main</span>
             <span class="push" data-pos>Ln {first.row}, Col {first.col}</span>
             <span class="hide-sm">UTF-8</span>
-            <span>humor mode · on</span>
           </div>
         </div>
       </div>
@@ -53,7 +41,7 @@ const lineCount = files[0]!.code.split('\n').length;
   </div>
 
   <div class="sr-only">
-    <p>The laptop types four joke Python files:</p>
+    <p>The laptop types four short Python files:</p>
     {files.map((f) => (<><p>{f.name}</p><pre>{f.code}</pre></>))}
   </div>
 </section>
