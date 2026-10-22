@@ -8,7 +8,6 @@ import Icon from '../components/Icon.astro';
 import Logo from '../components/Logo.astro';
 import AhmedOS from '../components/AhmedOS.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import RankField from '../components/RankField.astro';
 import {
   person, sections, focus, logos, education, experience, projects, skillGroups, hackathons, programs, certificates,
 } from '../data';
@@ -24,8 +23,9 @@ const fullCerts = await Promise.all(
 );
 const num = (i: number) => String(i + 1).padStart(2, '0');
 const newTab = { target: '_blank', rel: 'noopener noreferrer' };
-const [feature, ...rest] = projects;
 const [olo, sani] = programs;
+// Hero deck: three visually distinct live apps, front card first.
+const deck = ['digital-twin', 'ecosync', 'data-sentinel'].map((id) => projects.find((p) => p.id === id)!);
 
 // Where a linked skill points, in words, so the chip can say what proves it.
 const proofOf = (href: string) => {
@@ -58,7 +58,7 @@ const jsonLd = {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#0d0d0e" />
+    <meta name="theme-color" content="#f4f0e8" />
     <meta name="format-detection" content="telephone=no" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
@@ -67,7 +67,7 @@ const jsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Ahmed Alhejaili — AI Engineer & Computer Science Graduate" />
+    <meta property="og:image:alt" content="Ahmed Alhejaili — AI Engineer | Computer Science Graduate" />
     <meta property="profile:first_name" content="Ahmed" />
     <meta property="profile:last_name" content="Alhejaili" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -79,284 +79,278 @@ const jsonLd = {
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
-    <nav class="rail" aria-label="Sections">
-      <span class="rail-progress" aria-hidden="true"></span>
-      <a class="brand" href="#home">AA<b>.</b><span class="sr-only"> Ahmed Alhejaili, back to top</span></a>
-      <ol>
-        {sections.map(([id, label], i) => <li><a href={`#${id}`} data-nav={id}><span>{num(i)}</span>{label}</a></li>)}
-      </ol>
-      <div class="rail-foot">
-        <div class="rail-links">
-          <a href={person.linkedin} {...newTab}><Icon name="linkedin" size={18} /><span class="sr-only">LinkedIn (opens in a new tab)</span></a>
-          <a href={person.github} {...newTab}><Icon name="github" size={18} /><span class="sr-only">GitHub (opens in a new tab)</span></a>
+    <header class="nav-bar">
+      <div class="wrap">
+        <a class="brand" href="#home"><b>AA<i>.</i></b><span>Ahmed Alhejaili</span><span class="sr-only">, back to top</span></a>
+        <nav class="links" aria-label="Sections">
+          {sections.map(([id, label]) => <a href={`#${id}`} data-nav={id}>{label}</a>)}
+        </nav>
+        <div class="nav-end">
+          <a class="icon-link" href={person.github} {...newTab}><Icon name="github" size={18} /><span class="sr-only">GitHub (opens in a new tab)</span></a>
+          <a class="icon-link" href={person.linkedin} {...newTab}><Icon name="linkedin" size={18} /><span class="sr-only">LinkedIn (opens in a new tab)</span></a>
+          <a class="cta" href="#contact">Get in touch</a>
+          <details class="menu">
+            <summary>Menu <span aria-hidden="true">↓</span></summary>
+            <nav aria-label="Sections">
+              {sections.map(([id, label], i) => <a href={`#${id}`}><span>{num(i)}</span>{label}</a>)}
+            </nav>
+          </details>
         </div>
-        <a class="rail-cta" href="#contact">Get in touch</a>
       </div>
-    </nav>
+      <span class="progress" aria-hidden="true"></span>
+    </header>
 
-    <div class="page">
-      <header class="topbar" data-topbar>
-        <a class="brand" href="#home">AA<b>.</b><span class="sr-only"> Ahmed Alhejaili, back to top</span></a>
-        <a class="pill solid" href="#contact">Contact</a>
-        <details class="menu">
-          <summary class="pill">Index <span aria-hidden="true">↓</span></summary>
-          <nav aria-label="Sections">
-            {sections.map(([id, label], i) => <a href={`#${id}`}><span>{num(i)}</span>{label}</a>)}
-          </nav>
-        </details>
-      </header>
+    <main id="main">
+      <!-- 01 Home -->
+      <section id="home" class="hero" aria-labelledby="home-title">
+        <div class="wrap">
+          <div class="hero-grid">
+            <div>
+              <p class="kicker mono fade"><b>01 — Home</b><span>AI Engineer | Computer Science Graduate</span></p>
+              <h1 id="home-title" class="name">
+                <span class="line"><span>Ahmed</span></span>
+                <span class="line"><span><em>Alhejaili</em><span class="caret-dot" aria-hidden="true"></span></span></span>
+              </h1>
+              <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
+              <p class="support fade">I design RAG pipelines, AI agents and machine-learning models, then ship them as live software you can open today.</p>
+              <div class="ctas fade late">
+                <a class="btn primary" href="#projects">View projects <span class="arrow" aria-hidden="true">↘</span></a>
+                <a class="btn" href={person.twin} {...newTab}>Talk to my Digital Twin <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+                <a class="btn" href={person.github} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+                <a class="btn" href={person.linkedin} {...newTab}><Icon name="linkedin" /> LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+              </div>
+            </div>
+            <div class="fade late">
+              <ul class="stack" aria-label="Live apps">
+                {deck.map((p, k) => (
+                  <li class="app-card">
+                    <a href={p.live} {...newTab}>
+                      <span class="bar" aria-hidden="true"><i></i>{new URL(p.live).host}</span>
+                      <Picture src={p.shot} alt={`${p.title}, live app (opens in a new tab)`} formats={['avif']} fallbackFormat="webp" widths={[480, 720, 960]} sizes="(min-width: 1000px) 30rem, 82vw" quality={60} loading={k === 0 ? 'eager' : 'lazy'} decoding="async" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p class="app-note"><a href="#projects"><i class="dot ok"></i>{projects.length} live AI applications — see all projects <span class="arrow" aria-hidden="true">↘</span></a></p>
+            </div>
+          </div>
+          <ul class="highlights fade late" aria-label="Highlights">
+            <li><a href="#education"><span class="fig">{education.gpa}<small> / {education.gpaOf} GPA</small></span><span class="what"><b>{education.honors}</b>B.Sc. Computer Science, {education.school}</span></a></li>
+            <li><a href="#experience"><span class="fig">−50%</span><span class="what"><b>Credit-review time</b>AI solution built during SIDF co-op training, 2025</span></a></li>
+            <li><a href="#programs"><span class="fig hot">{olo!.rank}</span><span class="what"><b>{olo!.among}</b>{olo!.name}, {olo!.org}</span></a></li>
+            <li><a href="#programs"><span class="fig hot">{sani!.rank}</span><span class="what"><b>{sani!.among}</b>SANI | صانع — {sani!.name}</span></a></li>
+          </ul>
+        </div>
+      </section>
 
-      <main id="main">
-        <!-- 01 Home -->
-        <section id="home" class="hero" aria-labelledby="home-title">
-          <div class="wrap">
-            <div class="hero-grid">
-              <div>
-                <p class="kicker mono fade"><b>01 — Home</b><span>{person.title}</span></p>
-                <h1 id="home-title" class="name">
-                  <span class="line"><span>Ahmed</span></span>
-                  <span class="line"><span><em>Alhejaili</em><span class="caret-dot" aria-hidden="true"></span></span></span>
-                </h1>
-                <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
-                <p class="support fade">I design RAG pipelines, AI agents and machine-learning models, then ship them as live software you can open today.</p>
-                <div class="ctas fade late">
-                  <a class="btn primary" href="#projects">View projects <span class="arrow" aria-hidden="true">↘</span></a>
-                  <a class="btn" href={person.twin} {...newTab}>Talk to my Digital Twin <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
-                  <a class="btn" href={person.github} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
-                  <a class="btn" href={person.linkedin} {...newTab}><Icon name="linkedin" /> LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+      <AhmedOS />
+
+      <!-- 02 Education -->
+      <section id="education" aria-labelledby="education-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">02</span><h2 id="education-title">Education</h2></header>
+          <div class="edu reveal">
+            <div class="seal"><Logo logo={logos.iu} height={120} /></div>
+            <div class="edu-body">
+              <h3>{education.degree}</h3>
+              <p class="school">{education.school}</p>
+              <p class="period mono">{education.period}</p>
+              <dl class="stats">
+                <div class="stat"><dt class="mono">GPA</dt><dd>{education.gpa}<small> / {education.gpaOf}</small></dd></div>
+                <div class="stat"><dt class="mono">Honors</dt><dd class="honors">{education.honors}</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 Experience -->
+      <section id="experience" aria-labelledby="experience-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">03</span><h2 id="experience-title">Experience</h2></header>
+          <article class="exp reveal">
+            <div>
+              <div class="exp-head">
+                <Logo logo={logos.sidf} height={108} />
+                <div>
+                  <h3>{experience.org} <span>({experience.orgShort})</span></h3>
+                  <p class="ar" lang="ar" dir="rtl">{experience.orgAr}</p>
                 </div>
               </div>
-              <aside class="live fade late" aria-label="Live projects">
-                <header class="mono"><span>Live systems</span><span>{projects.length}</span></header>
-                <ul>
-                  {projects.map((p) => (
-                    <li><a href={p.live} {...newTab}><span><i class="dot ok"></i>{p.title}<span class="sr-only"> (opens in a new tab)</span></span><span class="host">{new URL(p.live).host.replace('.vercel.app', '')}</span></a></li>
+              <p class="exp-meta"><span class="role">{experience.role}</span><span class="mono muted">{experience.period}</span><span class="badge">{experience.type}</span></p>
+            </div>
+            <p class="impact"><strong>−50%</strong><span>credit-review time, within the project’s scope</span></p>
+            <ol class="points">
+              {experience.highlights.filter((h) => !h.includes('50%')).map((h) => <li>{h}</li>)}
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <!-- 04 Projects -->
+      <section id="projects" aria-labelledby="projects-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="deck mono">{projects.length} live on Vercel · click a screenshot to open the app</span></header>
+          {projects.map((p, i) => <ProjectCard p={p} i={i} />)}
+        </div>
+      </section>
+
+      <!-- 05 Skills -->
+      <section id="skills" aria-labelledby="skills-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">05</span><h2 id="skills-title">Skills</h2></header>
+          <div class="skills">
+            {skillGroups.map((g, i) => (
+              <div class="skill-row reveal">
+                <h3><span>{`05.${i + 1}`}</span>{g.name}</h3>
+                <ul class="tags">
+                  {g.skills.map((s) => (
+                    <li>
+                      {s.href ? (
+                        <a class="tag" href={s.href} {...(s.href.startsWith('http') ? newTab : {})}>
+                          {s.icon && <Icon name={s.icon} size={15} />}{s.name}<span class="to"><span aria-hidden="true">&nbsp;→&nbsp;</span>{proofOf(s.href)}</span>
+                        </a>
+                      ) : (
+                        <span class="tag">{s.icon && <Icon name={s.icon} size={15} />}{s.name}</span>
+                      )}
+                    </li>
                   ))}
                 </ul>
-              </aside>
-            </div>
-            <ul class="creds fade late" aria-label="Highlights">
-              <li><a href="#education"><span class="fig">{education.gpa}<small> / {education.gpaOf}</small></span><span class="what"><b>{education.honors}</b>B.Sc. Computer Science, {education.school}</span></a></li>
-              <li><a href="#experience"><span class="fig">−50%</span><span class="what"><b>Credit-review time</b>AI solution built during SIDF co-op training, 2025</span></a></li>
-              <li><a href="#programs"><span class="fig hot">{olo!.rank}</span><span class="what"><b>{olo!.among}</b>{olo!.name}, {olo!.org}</span></a></li>
-              <li><a href="#programs"><span class="fig hot">{sani!.rank}</span><span class="what"><b>{sani!.among}</b>SANI | صانع — {sani!.name}</span></a></li>
-            </ul>
-          </div>
-        </section>
-
-        <AhmedOS />
-
-        <!-- 02 Education -->
-        <section id="education" aria-labelledby="education-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">02</span><h2 id="education-title">Education</h2></header>
-            <div class="edu reveal">
-              <div class="plate"><Logo logo={logos.iu} height={110} /></div>
-              <div class="edu-body">
-                <h3>{education.degree}</h3>
-                <p class="school">{education.school}</p>
-                <p class="period mono">{education.period}</p>
-                <dl class="stats">
-                  <div class="stat"><dt class="mono">GPA</dt><dd>{education.gpa}<small> / {education.gpaOf}</small></dd></div>
-                  <div class="stat"><dt class="mono">Honors</dt><dd class="honors">{education.honors}</dd></div>
-                </dl>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
-
-        <!-- 03 Experience -->
-        <section id="experience" aria-labelledby="experience-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">03</span><h2 id="experience-title">Experience</h2></header>
-            <article class="exp reveal">
-              <div>
-                <div class="exp-head">
-                  <Logo logo={logos.sidf} height={104} />
-                  <div>
-                    <h3>{experience.org} <span>({experience.orgShort})</span></h3>
-                    <p class="ar" lang="ar" dir="rtl">{experience.orgAr}</p>
-                  </div>
-                </div>
-                <p class="exp-meta"><span class="role">{experience.role}</span><span class="mono muted">{experience.period}</span><span class="badge">{experience.type}</span></p>
-              </div>
-              <p class="impact"><strong>−50%</strong><span>credit-review time, within the project’s scope</span></p>
-              <ol class="points">
-                {experience.highlights.filter((h) => !h.includes('50%')).map((h) => <li>{h}</li>)}
-              </ol>
-            </article>
-          </div>
-        </section>
-
-        <!-- 04 Projects -->
-        <section id="projects" aria-labelledby="projects-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="deck mono">{projects.length} live on Vercel · click a screenshot to open the app</span></header>
-            <ProjectCard p={feature!} i={0} class="feature" sizes="(min-width: 900px) 46rem, 100vw" />
-            <div class="proj-grid">
-              {rest.map((p, j) => <ProjectCard p={p} i={j + 1} class="proj" sizes="(min-width: 900px) 34rem, 100vw" />)}
-            </div>
-          </div>
-        </section>
-
-        <!-- 05 Skills -->
-        <section id="skills" aria-labelledby="skills-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">05</span><h2 id="skills-title">Skills</h2></header>
-            <div class="skills">
-              {skillGroups.map((g, i) => (
-                <div class="skill-row reveal">
-                  <h3><span>{`05.${i + 1}`}</span>{g.name}</h3>
-                  <ul class="tags">
-                    {g.skills.map((s) => (
-                      <li>
-                        {s.href ? (
-                          <a class="tag" href={s.href} {...(s.href.startsWith('http') ? newTab : {})}>
-                            {s.icon && <Icon name={s.icon} size={15} />}{s.name}<span class="to"><span aria-hidden="true">&nbsp;→&nbsp;</span>{proofOf(s.href)}</span>
-                          </a>
-                        ) : (
-                          <span class="tag">{s.icon && <Icon name={s.icon} size={15} />}{s.name}</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            <p class="skill-note"><b>Outlined skills</b> link to the project, program or certificate that demonstrates them. Hover to see which.</p>
-          </div>
-        </section>
-
-        <!-- 06 Hackathons -->
-        <section id="hackathons" aria-labelledby="hackathons-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">06</span><h2 id="hackathons-title">Hackathons</h2><span class="deck mono">Competing, building, mentoring</span></header>
-            <ol class="ledger">
-              {hackathons.map((h) => (
-                <li class="reveal">
-                  <span class="date">{h.date}</span>
-                  <span class="logos">{h.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 40 : 30} />)}</span>
-                  <div>
-                    <h3>{h.event}{h.project && <> · <em>{h.project}</em></>}</h3>
-                    <p class="host">{h.host}</p>
-                  </div>
-                  <div>
-                    <span class="badge">{h.role}</span>
-                    <p class="line">{h.line}</p>
-                    {h.note && <p class="note">{h.note}</p>}
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <!-- 07 Programs -->
-        <section id="programs" aria-labelledby="programs-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">07</span><h2 id="programs-title">Programs</h2><span class="deck mono">Selected from thousands of applicants</span></header>
-            <div class="programs">
-              {programs.map((p, i) => (
-                <article class="program reveal">
-                  <div class="top">
-                    <span class="logos">{p.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 48 : 36} />)}</span>
-                    <span class={p.status === 'Ongoing' ? 'badge' : 'badge ok'}>{p.status}</span>
-                  </div>
-                  <p class="rank"><strong>{p.rank}</strong><span>— {p.among}</span></p>
-                  <RankField rank={p.place} total={p.applicants} id={`field-${i}`} />
-                  <div>
-                    <h3>{p.name}</h3>
-                    <p class="org">{p.org}</p>
-                  </div>
-                  <p class="muted">{p.line}</p>
-                  <ul class="tags" aria-label="Topics">{p.topics.map((t) => <li class="tag">{t}</li>)}</ul>
-                  <div class="foot mono">
-                    <span>{p.period}</span>
-                    {p.link && <a href={p.link} {...newTab}>SANI on LinkedIn ↗<span class="sr-only"> (opens in a new tab)</span></a>}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <!-- 08 Certifications -->
-        <section id="certifications" aria-labelledby="certifications-title">
-          <div class="wrap">
-            <header class="sec-head"><span class="num">08</span><h2 id="certifications-title">Certifications</h2><span class="deck mono">Original certificates · click to enlarge</span></header>
-            <ul class="certs">
-              {certificates.map((c, i) => (
-                <li class="cert reveal">
-                  <button type="button" class="mat" data-full={fullCerts[i]!.src} data-title={c.title} data-pdf={c.pdf} data-verify={c.verify ?? ''} aria-label={`Enlarge certificate: ${c.title}`}>
-                    <Picture src={c.image} alt="" formats={['avif']} fallbackFormat="webp" widths={[560, 840, 1120]} sizes="(min-width: 1100px) 34rem, (min-width: 760px) 46vw, 100vw" quality={72} loading="lazy" decoding="async" />
-                  </button>
-                  <div class="label">
-                    <span class="no">No. {num(i)}</span>
-                    <h3>{c.title}</h3>
-                    <p class="meta">{c.issuer} · {c.date}</p>
-                    <p class="links">
-                      <a href={c.pdf} {...newTab}>View PDF<span class="sr-only"> of {c.title} (opens in a new tab)</span></a>
-                      {c.verify ? (
-                        <a href={c.verify} {...newTab}>Verify credential ↗<span class="sr-only"> {c.title} on Coursera (opens in a new tab)</span></a>
-                      ) : (
-                        <span>Certificate code {c.code}</span>
-                      )}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
-            <header>
-              <p id="viewer-title"></p>
-              <div class="acts">
-                <a id="viewer-pdf" href="#" {...newTab}>View original PDF</a>
-                <a id="viewer-verify" href="#" {...newTab}>Verify credential ↗</a>
-                <form method="dialog"><button type="submit" aria-label="Close certificate viewer">Close ✕</button></form>
-              </div>
-            </header>
-            <img id="viewer-img" alt="" />
-          </dialog>
-        </section>
-
-        <!-- 09 Contact -->
-        <section id="contact" class="contact" aria-labelledby="contact-title">
-          <div class="wrap contact-grid">
-            <div>
-              <p class="mono">09 — Contact</p>
-              <h2 id="contact-title">Let’s build something <em>intelligent</em>.</h2>
-              <p class="lead">Email or LinkedIn is the fastest way to reach me.</p>
-            </div>
-            <div class="cards">
-              <a class="primary" href={`mailto:${person.email}`}>
-                <span class="lbl mono"><span>Email</span><span aria-hidden="true">↗</span></span>
-                <span class="value">{person.email}</span>
-              </a>
-              <a class="primary" href={person.linkedin} {...newTab}>
-                <span class="lbl mono"><span>LinkedIn</span><Icon name="linkedin" size={18} /></span>
-                <span class="value">in/ahmed-alhejaili1<span class="sr-only"> (opens in a new tab)</span></span>
-              </a>
-              <a href={person.phoneHref}>
-                <span class="lbl mono"><span>Phone</span><span aria-hidden="true">↗</span></span>
-                <span class="value">{person.phoneDisplay}</span>
-              </a>
-              <a href={person.github} {...newTab}>
-                <span class="lbl mono"><span>GitHub</span><Icon name="github" size={18} /></span>
-                <span class="value">github.com/Ahmedtech7<span class="sr-only"> (opens in a new tab)</span></span>
-              </a>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site">
-        <div class="wrap">
-          <span>© 2026 {person.name}</span>
-          <a href="#home">Back to top ↑</a>
+          <p class="skill-note"><b>Blue-outlined skills</b> link to the project, program or certificate that demonstrates them. Hover to see which.</p>
         </div>
-      </footer>
-    </div>
+      </section>
+
+      <!-- 06 Hackathons -->
+      <section id="hackathons" aria-labelledby="hackathons-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">06</span><h2 id="hackathons-title">Hackathons</h2><span class="deck mono">Competing, building, mentoring</span></header>
+          <ol class="ledger">
+            {hackathons.map((h) => (
+              <li class="reveal">
+                <span class="date">{h.date}</span>
+                <span class="plate-sm">{h.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 37 : 29} />)}</span>
+                <div>
+                  <h3>{h.event}{h.project && <> · <em>{h.project}</em></>}</h3>
+                  <p class="host">{h.host}</p>
+                </div>
+                <div>
+                  <span class="badge">{h.role}</span>
+                  <p class="line">{h.line}</p>
+                  {h.note && <p class="note">{h.note}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- 07 Programs -->
+      <section id="programs" aria-labelledby="programs-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">07</span><h2 id="programs-title">Programs</h2><span class="deck mono">Selected from thousands of applicants</span></header>
+          <div class="programs">
+            {programs.map((p) => (
+              <article class="program reveal">
+                <div class="top">
+                  <span class="logos">{p.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 56 : 40} />)}</span>
+                  <span class={p.status === 'Ongoing' ? 'badge' : 'badge ok'}>{p.status}</span>
+                </div>
+                <p class="rank"><strong>{p.rank}</strong><span>— {p.among}</span></p>
+                <div>
+                  <h3>{p.name}</h3>
+                  <p class="org">{p.org}</p>
+                </div>
+                <p class="desc">{p.line}</p>
+                <ul class="tags" aria-label="Topics">{p.topics.map((t) => <li class="tag">{t}</li>)}</ul>
+                <div class="foot mono">
+                  <span>{p.period}</span>
+                  {p.link && <a href={p.link} {...newTab}>SANI on LinkedIn ↗<span class="sr-only"> (opens in a new tab)</span></a>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 Certifications -->
+      <section id="certifications" aria-labelledby="certifications-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">08</span><h2 id="certifications-title">Certifications</h2><span class="deck mono">Original certificates · click to enlarge</span></header>
+          <ul class="certs">
+            {certificates.map((c, i) => (
+              <li class="cert reveal">
+                <button type="button" class="mat" data-full={fullCerts[i]!.src} data-title={c.title} data-pdf={c.pdf} data-verify={c.verify ?? ''} aria-label={`Enlarge certificate: ${c.title}`}>
+                  <Picture src={c.image} alt="" formats={['avif']} fallbackFormat="webp" widths={[600, 900, 1200]} sizes="(min-width: 1300px) 36rem, (min-width: 760px) 46vw, 100vw" quality={72} loading="lazy" decoding="async" />
+                </button>
+                <div class="label">
+                  <span class="no">No. {num(i)}</span>
+                  <h3>{c.title}</h3>
+                  <p class="meta">{c.issuer} · {c.date}</p>
+                  <p class="links">
+                    <a href={c.pdf} {...newTab}>View PDF<span class="sr-only"> of {c.title} (opens in a new tab)</span></a>
+                    {c.verify ? (
+                      <a href={c.verify} {...newTab}>Verify credential ↗<span class="sr-only"> {c.title} on Coursera (opens in a new tab)</span></a>
+                    ) : (
+                      <span>Certificate code {c.code}</span>
+                    )}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+          <header>
+            <p id="viewer-title"></p>
+            <div class="acts">
+              <a id="viewer-pdf" href="#" {...newTab}>View original PDF</a>
+              <a id="viewer-verify" href="#" {...newTab}>Verify credential ↗</a>
+              <form method="dialog"><button type="submit" aria-label="Close certificate viewer">Close ✕</button></form>
+            </div>
+          </header>
+          <img id="viewer-img" alt="" />
+        </dialog>
+      </section>
+
+      <!-- 09 Contact -->
+      <section id="contact" class="contact" aria-labelledby="contact-title">
+        <div class="wrap contact-grid">
+          <div>
+            <p class="mono">09 — Contact</p>
+            <h2 id="contact-title">Let’s build something <em>intelligent</em>.</h2>
+            <p class="lead">Email or LinkedIn is the fastest way to reach me.</p>
+          </div>
+          <div class="cards">
+            <a class="primary" href={`mailto:${person.email}`}>
+              <span class="lbl mono"><span>Email</span><span aria-hidden="true">↗</span></span>
+              <span class="value">{person.email}</span>
+            </a>
+            <a class="primary" href={person.linkedin} {...newTab}>
+              <span class="lbl mono"><span>LinkedIn</span><Icon name="linkedin" size={18} /></span>
+              <span class="value">in/ahmed-alhejaili1<span class="sr-only"> (opens in a new tab)</span></span>
+            </a>
+            <a href={person.phoneHref}>
+              <span class="lbl mono"><span>Phone</span><span aria-hidden="true">↗</span></span>
+              <span class="value">{person.phoneDisplay}</span>
+            </a>
+            <a href={person.github} {...newTab}>
+              <span class="lbl mono"><span>GitHub</span><Icon name="github" size={18} /></span>
+              <span class="value">github.com/Ahmedtech7<span class="sr-only"> (opens in a new tab)</span></span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 {person.name}</span>
+        <a href="#home">Back to top ↑</a>
+      </div>
+    </footer>
 
     <script>
       // Certificate viewer: native <dialog> handles focus trapping, Esc and focus return. Full images load only on open.
@@ -379,7 +373,7 @@ const jsonLd = {
       );
       viewer.addEventListener('click', (e) => { if (e.target === viewer) viewer.close(); });
 
-      // Mark the current section in the rail.
+      // Underline the current section in the top bar.
       const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')].map((a) => [a.dataset.nav, a]));
       const io = new IntersectionObserver(
         (entries) => entries.forEach((e) => {
@@ -391,15 +385,8 @@ const jsonLd = {
       );
       document.querySelectorAll('main > section').forEach((s) => io.observe(s));
 
-      // Small screens: the bar slides away while reading down and returns on scroll up, so it never sits on content.
-      const bar = document.querySelector<HTMLElement>('[data-topbar]')!;
-      const menu = bar.querySelector('details')!;
-      let lastY = scrollY;
-      addEventListener('scroll', () => {
-        const y = scrollY;
-        bar.classList.toggle('hide', y > lastY && y > 120 && !menu.open);
-        lastY = y;
-      }, { passive: true });
+      // Close the small-screen menu after choosing a section.
+      const menu = document.querySelector('.menu')!;
       menu.querySelectorAll('nav a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')));
     </script>
   </body>
