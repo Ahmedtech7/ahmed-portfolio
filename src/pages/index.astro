@@ -297,30 +297,22 @@ const jsonLd = {
 
       <!-- 09 Contact -->
       <section id="contact" class="contact" aria-labelledby="contact-title">
-        <div class="wrap contact-grid">
-          <div>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="contact-top">
             <p class="mono">09 — Contact</p>
-            <h2 id="contact-title">Let’s build something <em>intelligent</em>.</h2>
-            <p class="lead"><span class="open-dot" aria-hidden="true"></span>Open to work — ready to join a team as an AI Engineer.</p>
+            <p class="status"><span class="open-dot" aria-hidden="true"></span>Open to work — AI, machine learning and software engineering roles</p>
           </div>
-          <div class="cards">
-            <a class="primary" href={`mailto:${person.email}`}>
-              <span class="lbl mono"><span>Email</span><span aria-hidden="true">↗</span></span>
-              <span class="value">{person.email}</span>
-            </a>
-            <a class="primary" href={person.linkedin} {...newTab}>
-              <span class="lbl mono"><span>LinkedIn</span><Icon name="linkedin" size={18} /></span>
-              <span class="value">in/ahmed-alhejaili1<span class="sr-only"> (opens in a new tab)</span></span>
-            </a>
-            <a href={person.phoneHref}>
-              <span class="lbl mono"><span>Phone</span><span aria-hidden="true">↗</span></span>
-              <span class="value">{person.phoneDisplay}</span>
-            </a>
-            <a href={person.github} {...newTab}>
-              <span class="lbl mono"><span>GitHub</span><Icon name="github" size={18} /></span>
-              <span class="value">github.com/Ahmedtech7<span class="sr-only"> (opens in a new tab)</span></span>
-            </a>
+          <h2 id="contact-title">Let’s build something <em>intelligent</em>.</h2>
+          <div class="mail">
+            <a class="mail-link" href={`mailto:${person.email}`}>{person.email}<span class="arrow" aria-hidden="true">↗</span></a>
+            <button type="button" class="copy" data-copy={person.email}><span data-label>Copy email</span></button>
           </div>
+          <ul class="channels">
+            <li><a href={person.linkedin} {...newTab}><span class="mono">LinkedIn</span><span class="val">in/ahmed-alhejaili1</span><Icon name="linkedin" size={20} /><span class="sr-only"> (opens in a new tab)</span></a></li>
+            <li><a href={person.phoneHref}><span class="mono">Phone</span><span class="val">{person.phoneDisplay}</span><span class="arrow" aria-hidden="true">↗</span></a></li>
+            <li><a href={person.github} {...newTab}><span class="mono">GitHub</span><span class="val">github.com/Ahmedtech7</span><Icon name="github" size={20} /><span class="sr-only"> (opens in a new tab)</span></a></li>
+          </ul>
         </div>
       </section>
     </main>
@@ -352,6 +344,16 @@ const jsonLd = {
         }),
       );
       viewer.addEventListener('click', (e) => { if (e.target === viewer) viewer.close(); });
+
+      // Copy the email address; the label confirms briefly, then resets.
+      document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) =>
+        btn.addEventListener('click', async () => {
+          const label = btn.querySelector('[data-label]')!;
+          try { await navigator.clipboard.writeText(btn.dataset.copy!); label.textContent = 'Copied ✓'; }
+          catch { label.textContent = 'Press ⌘C to copy'; }
+          setTimeout(() => (label.textContent = 'Copy email'), 2000);
+        }),
+      );
 
       // Underline the current section in the top bar.
       const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')].map((a) => [a.dataset.nav, a]));
