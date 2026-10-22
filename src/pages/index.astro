@@ -24,6 +24,7 @@ const fullCerts = await Promise.all(
 const num = (i: number) => String(i + 1).padStart(2, '0');
 const newTab = { target: '_blank', rel: 'noopener noreferrer' };
 const [olo, sani] = programs;
+const tickerSkills = ['RAG', 'AI Agents', 'Agentic AI', 'LLMs', 'Computer Vision', 'YOLO', 'Machine Learning', 'Deep Learning', 'PyTorch', 'FastAPI', 'Python', 'Docker', 'Anomaly Detection', 'Recommendation Systems'];
 
 // Where a linked skill points, in words, so the chip can say what proves it.
 const proofOf = (href: string) => {
@@ -102,9 +103,20 @@ const jsonLd = {
       <!-- 01 Home -->
       <section id="home" class="hero" aria-labelledby="home-title">
         <div class="aura" aria-hidden="true"></div>
+        <div class="ticker" aria-hidden="true"><div>{[0, 1].map(() => <span>{tickerSkills.join(' · ')} · </span>)}</div></div>
+        <ul class="sats" aria-label="Live projects">
+          {projects.map((p, k) => (
+            <li class={`sat sat-${k + 1}`}>
+              <a href={p.live} {...newTab}>
+                <span class="bar" aria-hidden="true"><i></i>{p.title}</span>
+                <Picture src={p.shot} alt={`${p.title}, live app (opens in a new tab)`} formats={['avif']} fallbackFormat="webp" widths={[320, 480]} sizes="15rem" quality={62} loading="lazy" decoding="async" />
+              </a>
+            </li>
+          ))}
+        </ul>
         <div class="wrap">
           <p class="kicker mono fade"><b>01 — Home</b><span>AI Engineer | Computer Science Graduate</span></p>
-          <h1 id="home-title" class="name"><span class="rise">Ahmed</span><span class="line2 rise d2">Alhejaili</span></h1>
+          <h1 id="home-title" class="name"><span class="rise">Ahmed</span><span class="line2 rise d2">Alhejaili</span><span class="fact fact-a" aria-hidden="true"><b>4.78 / 5.00</b>First Class Honors</span><span class="fact fact-b" aria-hidden="true"><b>TOP 1</b>of 5,000+ applicants</span></h1>
           <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
           <p class="support fade">I turn ideas into working AI products, from retrieval and agents to machine-learning models, built end to end and deployed for anyone to try.</p>
           <div class="ctas fade late">
@@ -354,6 +366,20 @@ const jsonLd = {
           setTimeout(() => (label.textContent = 'Copy email'), 2000);
         }),
       );
+
+      // Hero satellites lean gently toward the pointer (skipped for reduced motion and touch).
+      const hero = document.getElementById('home')!;
+      // Keep the satellites above the highlights row, whatever its height.
+      const hl = hero.querySelector<HTMLElement>('.highlights')!;
+      const fit = () => hero.style.setProperty('--hl-h', `${hero.getBoundingClientRect().bottom - hl.getBoundingClientRect().top + 16}px`);
+      fit(); new ResizeObserver(fit).observe(hero);
+      if (matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+        hero.addEventListener('pointermove', (e) => {
+          const r = hero.getBoundingClientRect();
+          hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+          hero.style.setProperty('--my', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+        });
+      }
 
       // Underline the current section in the top bar.
       const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')].map((a) => [a.dataset.nav, a]));
