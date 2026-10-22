@@ -17,14 +17,14 @@ const worlds: Record<string, [string, string]> = {
 };
 const [tint, tone] = worlds[p.id] ?? ['#e7e9fb', '#121a6b'];
 ---
-<article class="world" id={`project-${p.id}`} aria-labelledby={`p-${p.id}`} style={`--tint:${tint};--tone:${tone}`}>
-  <div class="wrap">
+<article class="world reveal" id={`project-${p.id}`} aria-labelledby={`p-${p.id}`} style={`--tint:${tint};--tone:${tone}`}>
+  <div>
     <div class="world-top mono">
       <p><span class="n">{String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span>{p.category}</p>
       <p>{host}</p>
     </div>
     <h3 id={`p-${p.id}`}><a href={p.live} {...newTab}>{p.title}<span class="sr-only"> (opens in a new tab)</span></a></h3>
-    <a class="frame reveal" href={p.live} {...newTab}>
+    <a class="frame" href={p.live} {...newTab}>
       <span class="bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="url"><i></i>{host}</span><span>↗</span></span>
       <Picture
         src={p.shot}
@@ -32,7 +32,7 @@ const [tint, tone] = worlds[p.id] ?? ['#e7e9fb', '#121a6b'];
         formats={['avif']}
         fallbackFormat="webp"
         widths={[640, 960, 1280, 1440]}
-        sizes="(min-width: 1600px) 90rem, 92vw"
+        sizes="(min-width: 1000px) 45vw, 92vw"
         quality={74}
         loading="lazy"
         decoding="async"

@@ -106,7 +106,7 @@ const jsonLd = {
           <p class="kicker mono fade"><b>01 — Home</b><span>AI Engineer | Computer Science Graduate</span></p>
           <h1 id="home-title" class="name"><span class="rise">Ahmed</span><span class="line2 rise d2">Alhejaili</span></h1>
           <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
-          <p class="support fade">I design RAG pipelines, AI agents and machine-learning models, then ship them as live software you can open today.</p>
+          <p class="support fade">I turn ideas into working AI products, from retrieval and agents to machine-learning models, built end to end and deployed for anyone to try.</p>
           <div class="ctas fade late">
             <a class="btn primary" href="#projects">View projects <span class="arrow" aria-hidden="true">↘</span></a>
             <a class="btn" href={person.twin} {...newTab}>Talk to my Digital Twin <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
@@ -115,7 +115,6 @@ const jsonLd = {
           </div>
           <ul class="highlights fade late" aria-label="Highlights">
             <li><a href="#education"><span class="fig">{education.gpa}<small> / {education.gpaOf} GPA</small></span><span class="what"><b>{education.honors}</b>B.Sc. Computer Science, {education.school}</span></a></li>
-            <li><a href="#experience"><span class="fig">−50%</span><span class="what"><b>Credit-review time</b>AI solution built during SIDF co-op training, 2025</span></a></li>
             <li><a href="#programs"><span class="fig hot">{olo!.rank}</span><span class="what"><b>{olo!.among}</b>{olo!.name}, {olo!.org}</span></a></li>
             <li><a href="#programs"><span class="fig hot">{sani!.rank}</span><span class="what"><b>{sani!.among}</b>SANI | صانع — {sani!.name}</span></a></li>
           </ul>
@@ -167,12 +166,14 @@ const jsonLd = {
       </section>
 
       <!-- 04 Projects -->
-      <section id="projects" class="projects-intro" aria-labelledby="projects-title">
+      <section id="projects" aria-labelledby="projects-title">
         <div class="wrap">
           <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="deck">{projects.length} AI applications, live on Vercel. Click any screenshot to open the real app.</span></header>
         </div>
+        <div class="wrap proj-grid">
+          {projects.map((p, i) => <ProjectCard p={p} i={i} total={projects.length} />)}
+        </div>
       </section>
-      {projects.map((p, i) => <ProjectCard p={p} i={i} total={projects.length} />)}
 
       <!-- 05 Skills -->
       <section id="skills" aria-labelledby="skills-title">
@@ -300,7 +301,7 @@ const jsonLd = {
           <div>
             <p class="mono">09 — Contact</p>
             <h2 id="contact-title">Let’s build something <em>intelligent</em>.</h2>
-            <p class="lead">Email or LinkedIn is the fastest way to reach me.</p>
+            <p class="lead"><span class="open-dot" aria-hidden="true"></span>Open to work — ready to join a team as an AI Engineer.</p>
           </div>
           <div class="cards">
             <a class="primary" href={`mailto:${person.email}`}>
