@@ -317,17 +317,7 @@ a:hover .arrow { transform: translate(2px, -2px); }
 .exp-head .ar { margin-top: 0.4rem; color: var(--muted); text-align: left; font-size: 1.1rem; }
 .exp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.4rem; margin-top: 1.4rem; }
 .exp-meta .role { font-weight: 600; font-size: 1.1rem; }
-.impact { display: flex; flex-direction: column; justify-content: center; }
-.impact strong { font: 800 clamp(5.5rem, 12vw, 11rem)/0.82 var(--display); letter-spacing: -0.06em; color: var(--blue); }
-.impact span { margin-top: 0.8rem; max-width: 18rem; color: var(--muted); }
-.points { display: grid; gap: 1.2rem; padding-top: 2rem; border-top: 1px solid var(--line); counter-reset: p; font-size: 1.12rem; }
-.points li { display: grid; grid-template-columns: 2.8rem 1fr; }
-.points li::before { counter-increment: p; content: '0' counter(p); font: 0.8rem/2.1 var(--mono); color: var(--blue); }
-@media (min-width: 1000px) {
-  .exp { grid-template-columns: minmax(0, 1fr) auto; }
-  .impact { padding-left: 4rem; border-left: 1px solid var(--line); }
-  .points { grid-column: 1 / -1; grid-template-columns: repeat(2, 1fr); gap: 4rem; }
-}
+.story { max-width: 62ch; padding-top: 2rem; border-top: 1px solid var(--line); font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.65; color: var(--ink-2); }
 
 /* ---------- 04 Projects: each project is its own full-bleed world ---------- */
 .proj-grid { display: grid; gap: clamp(1.5rem, 2.5vw, 2.25rem); }
