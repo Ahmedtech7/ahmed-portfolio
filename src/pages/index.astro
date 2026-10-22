@@ -1,0 +1,390 @@
+---
+import '../styles/global.css';
+import { Image, Picture, getImage } from 'astro:assets';
+import serifUrl from '@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import AhmedOS from '../components/AhmedOS.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import {
+  person, sections, focus, logos, education, experience, projects, skillGroups, hackathons, programs, certificates,
+} from '../data';
+
+const title = 'Ahmed Alhejaili — AI Engineer';
+const description =
+  'AI Engineer and Computer Science graduate (GPA 4.78/5, First Class Honors) building RAG systems, AI agents and machine learning applications. Five live projects.';
+const canonical = new URL('/', Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+
+const fullCerts = await Promise.all(
+  certificates.map((c) => getImage({ src: c.image, width: 1600, format: 'webp', quality: 82 })),
+);
+const num = (i: number) => String(i + 1).padStart(2, '0');
+const newTab = { target: '_blank', rel: 'noopener noreferrer' };
+const [feature, ...rest] = projects;
+const [olo, sani] = programs;
+const specialties = ['RAG', 'AI Agents', 'Agentic AI', 'LLMs', 'Computer Vision', 'Machine Learning'];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.name,
+  jobTitle: 'AI Engineer',
+  email: `mailto:${person.email}`,
+  url: canonical,
+  sameAs: [person.linkedin, person.github],
+  alumniOf: { '@type': 'CollegeOrUniversity', name: education.school },
+  knowsAbout: focus,
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#f3efe8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ahmed Alhejaili — AI Engineer | Computer Science Graduate" />
+    <meta property="profile:first_name" content="Ahmed" />
+    <meta property="profile:last_name" content="Alhejaili" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href="#home">AA<b>.</b><span class="sr-only"> Ahmed Alhejaili, back to top</span></a>
+        <nav class="nav" aria-label="Sections">
+          {sections.map(([id, label], i) => <a href={`#${id}`} data-nav={id}><span>{num(i)}</span>{label}</a>)}
+        </nav>
+        <div class="head-actions">
+          <span class="head-icons">
+            <a class="icon-link" href={person.github} {...newTab}><Icon name="github" size={18} /><span class="sr-only">GitHub (opens in a new tab)</span></a>
+            <a class="icon-link" href={person.linkedin} {...newTab}><Icon name="linkedin" size={18} /><span class="sr-only">LinkedIn (opens in a new tab)</span></a>
+          </span>
+          <a class="cta-mini" href="#contact">Contact</a>
+          <details class="menu">
+            <summary>Index <span aria-hidden="true">↓</span></summary>
+            <nav aria-label="Sections">
+              {sections.map(([id, label], i) => <a href={`#${id}`}><span>{num(i)}</span>{label}</a>)}
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- 01 Home -->
+      <section id="home" class="hero sec-light" aria-labelledby="home-title">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="kicker mono fade"><b>01 — Home</b><span>{person.title}</span></p>
+            <h1 id="home-title" class="name">
+              <span class="line"><span>Ahmed</span></span>
+              <span class="line"><span><em>Alhejaili</em><span class="dot-v">.</span></span></span>
+            </h1>
+            <p class="headline fade">Builder of <em>real</em> intelligent systems.</p>
+            <p class="support fade">I design RAG pipelines, AI agents and machine-learning models, then ship them as live software you can click.</p>
+            <div class="ctas fade late">
+              <a class="btn primary" href="#projects">View projects <span class="arrow" aria-hidden="true">↘</span></a>
+              <a class="btn" href={person.twin} {...newTab}>Digital Twin <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+              <a class="btn" href={person.github} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+              <a class="btn" href={person.linkedin} {...newTab}><Icon name="linkedin" /> LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+              <a class="btn" href="#contact">Contact <span class="arrow" aria-hidden="true">↘</span></a>
+            </div>
+          </div>
+
+          <div class="overview fade late">
+            <a class="tile t-edu" href="#education">
+              <span class="lbl mono">Education</span>
+              <span class="t-title">Bachelor's in Computer Science</span>
+              <span class="t-sub">{education.school} · {education.period}</span>
+              <span class="row">
+                <span class="big">{education.gpa}<small> / {education.gpaOf} GPA</small></span>
+                <span class="honors">{education.honors}</span>
+              </span>
+            </a>
+            <a class="tile t-proj" href="#projects">
+              <span class="lbl mono">Projects</span>
+              <span class="big">{projects.length}</span>
+              <span class="t-strong">live AI applications</span>
+              <span class="t-list">{projects.map((p) => <span>{p.title}</span>)}</span>
+            </a>
+            <a class="tile t-rank" href="#programs">
+              <span class="lbl mono">Programs</span>
+              <span class="ranks">
+                <span class="r"><strong>{olo!.rank}</strong><span>{olo!.among} · {olo!.name}, {olo!.org}</span></span>
+                <span class="r"><strong>{sani!.rank}</strong><span>{sani!.among} · SANI, {sani!.name}</span></span>
+              </span>
+            </a>
+            <a class="tile t-sidf" href="#experience">
+              <span class="lbl mono">Experience</span>
+              <span class="who"><Image src={logos.sidf.src} alt="" width={84} height={84} /><strong>−50%</strong></span>
+              <span class="t-sub">review time with an AI credit-review solution · SIDF co-op, 2025</span>
+            </a>
+            <a class="tile t-spec" href="#skills">
+              <span class="lbl mono">Specialties</span>
+              <span class="tags">{specialties.map((s) => <span class="tag">{s}</span>)}</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <AhmedOS />
+
+      <!-- 02 Education -->
+      <section id="education" class="sec-light" aria-labelledby="education-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">02</span><h2 id="education-title">Education</h2></header>
+          <div class="edu reveal">
+            <div class="plate"><Logo logo={logos.iu} height={96} /></div>
+            <div class="edu-body">
+              <h3>{education.degree}</h3>
+              <p class="school">{education.school}</p>
+              <p class="period mono">{education.period}</p>
+            </div>
+            <dl class="stats">
+              <div class="stat"><dt class="mono">GPA</dt><dd class="big">{education.gpa}<small> / {education.gpaOf}</small></dd></div>
+              <div class="stat"><dt class="mono">Honors</dt><dd class="big honors">{education.honors}</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 Experience -->
+      <section id="experience" class="sec-light alt" aria-labelledby="experience-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">03</span><h2 id="experience-title">Experience</h2></header>
+          <article class="exp reveal">
+            <div class="exp-head">
+              <Logo logo={logos.sidf} height={96} />
+              <div>
+                <h3>{experience.org} <span class="muted">({experience.orgShort})</span></h3>
+                <p class="ar" lang="ar" dir="rtl">{experience.orgAr}</p>
+                <p class="meta"><span class="role">{experience.role}</span><span class="mono muted">{experience.period}</span><span class="badge">{experience.type}</span></p>
+              </div>
+            </div>
+            <ol class="points">
+              {experience.highlights.map((h) => <li><span set:html={h.replace('50%', '<strong>50%</strong>')} /></li>)}
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <!-- 04 Projects -->
+      <section id="projects" class="sec-dark" aria-labelledby="projects-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="aside mono muted">{projects.length} live on Vercel · click any screenshot</span></header>
+          <ProjectCard p={feature!} i={0} class="feature" sizes="(min-width: 900px) 46rem, 100vw" />
+          <div class="proj-grid">
+            {rest.map((p, j) => <ProjectCard p={p} i={j + 1} class="proj" sizes="(min-width: 900px) 36rem, 100vw" />)}
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 Skills -->
+      <section id="skills" class="sec-light" aria-labelledby="skills-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">05</span><h2 id="skills-title">Skills</h2></header>
+          <div class="skill-grid">
+            {skillGroups.map((g, i) => (
+              <div class="skill-col">
+                <h3><span>{`05.${i + 1}`}</span>{g.name}</h3>
+                <ul class="tags">
+                  {g.skills.map((s) => (
+                    <li>
+                      {s.href ? (
+                        <a class="tag" href={s.href} {...(s.href.startsWith('http') ? newTab : {})}>{s.icon && <Icon name={s.icon} size={14} />}{s.name}</a>
+                      ) : (
+                        <span class="tag">{s.icon && <Icon name={s.icon} size={14} />}{s.name}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p class="skill-note"><b>Blue skills</b> jump to the project, program or certificate that shows them.</p>
+        </div>
+      </section>
+
+      <!-- 06 Hackathons -->
+      <section id="hackathons" class="sec-dark" aria-labelledby="hackathons-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">06</span><h2 id="hackathons-title">Hackathons</h2><span class="aside mono muted">Competitions & mentoring</span></header>
+          <ol class="ledger">
+            {hackathons.map((h) => (
+              <li class="reveal">
+                <div class="top">
+                  <span class="logos">{h.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 37 : 28} />)}</span>
+                  <span class="date">{h.date}</span>
+                </div>
+                <div>
+                  <h3>{h.event}{h.project && <> · <em>{h.project}</em></>}</h3>
+                  <p class="host">{h.host}</p>
+                </div>
+                <p><span class="badge">{h.role}</span></p>
+                <p class="line">{h.line}</p>
+                {h.note && <p class="note">{h.note}</p>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- 07 Programs -->
+      <section id="programs" class="sec-dark programs-sec" aria-labelledby="programs-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">07</span><h2 id="programs-title">Programs</h2><span class="aside mono muted">Selective AI programs</span></header>
+          <div class="programs">
+            {programs.map((p) => (
+              <article class="program reveal">
+                <div class="top">
+                  <span class="logos">{p.logos.map((l) => <Logo logo={l} height={l.kind === 'tile' ? 48 : 34} />)}</span>
+                  <span class={p.status === 'Ongoing' ? 'badge' : 'badge ok'}>{p.status}</span>
+                </div>
+                <p class="rank"><strong>{p.rank}</strong><span>— {p.among}</span></p>
+                <div>
+                  <h3>{p.name}</h3>
+                  <p class="org">{p.org}</p>
+                </div>
+                <p class="muted">{p.line}</p>
+                <ul class="tags" aria-label="Topics">{p.topics.map((t) => <li class="tag">{t}</li>)}</ul>
+                <div class="foot mono">
+                  <span>{p.period}</span>
+                  {p.link && <a href={p.link} {...newTab}>SANI on LinkedIn ↗<span class="sr-only"> (opens in a new tab)</span></a>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 Certifications -->
+      <section id="certifications" class="sec-light" aria-labelledby="certifications-title">
+        <div class="wrap">
+          <header class="sec-head"><span class="num">08</span><h2 id="certifications-title">Certifications</h2><span class="aside mono muted">Click a certificate to enlarge</span></header>
+          <ul class="certs">
+            {certificates.map((c, i) => (
+              <li class="cert reveal">
+                <button type="button" data-full={fullCerts[i]!.src} data-title={c.title} aria-label={`Enlarge certificate: ${c.title}`}>
+                  <Picture src={c.image} alt="" formats={['avif']} fallbackFormat="webp" widths={[300, 480]} sizes="(min-width: 1100px) 11rem, 8.5rem" quality={72} loading="lazy" decoding="async" />
+                </button>
+                <div>
+                  <h3>{c.title}</h3>
+                  <p class="meta">{c.issuer} · {c.date}</p>
+                  <p class="links">
+                    <a href={c.pdf} {...newTab}>View PDF<span class="sr-only"> of {c.title} (opens in a new tab)</span></a>
+                    {c.verify ? (
+                      <a href={c.verify} {...newTab}>Verify ↗<span class="sr-only"> {c.title} on Coursera (opens in a new tab)</span></a>
+                    ) : (
+                      <span>Code {c.code}</span>
+                    )}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+          <header>
+            <p id="viewer-title"></p>
+            <form method="dialog"><button type="submit" aria-label="Close certificate viewer">Close ✕</button></form>
+          </header>
+          <img id="viewer-img" alt="" />
+        </dialog>
+      </section>
+
+      <!-- 09 Contact -->
+      <section id="contact" class="contact sec-hot" aria-labelledby="contact-title">
+        <div class="wrap contact-grid">
+          <div>
+            <p class="mono" style="margin-bottom:1rem">09 — Contact</p>
+            <h2 id="contact-title" class="big">Let’s build something <em>intelligent</em>.</h2>
+            <p class="lead">Email or LinkedIn is the fastest way to reach me.</p>
+          </div>
+          <div class="cards">
+            <a class="primary" href={`mailto:${person.email}`}>
+              <span class="label mono"><span>Email</span><span aria-hidden="true">↗</span></span>
+              <span class="value">{person.email}</span>
+            </a>
+            <a class="primary" href={person.linkedin} {...newTab}>
+              <span class="label mono"><span>LinkedIn</span><Icon name="linkedin" size={18} /></span>
+              <span class="value">in/ahmed-alhejaili1<span class="sr-only"> (opens in a new tab)</span></span>
+            </a>
+            <a href={person.phoneHref}>
+              <span class="label mono"><span>Phone</span><span aria-hidden="true">↗</span></span>
+              <span class="value">{person.phoneDisplay}</span>
+            </a>
+            <a href={person.github} {...newTab}>
+              <span class="label mono"><span>GitHub</span><Icon name="github" size={18} /></span>
+              <span class="value">github.com/Ahmedtech7<span class="sr-only"> (opens in a new tab)</span></span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 {person.name}</span>
+        <a href="#home">Back to top ↑</a>
+      </div>
+    </footer>
+
+    <script>
+      // Certificate viewer: native <dialog> handles focus, Esc and focus return.
+      const viewer = document.getElementById('viewer') as HTMLDialogElement;
+      const img = document.getElementById('viewer-img') as HTMLImageElement;
+      const caption = document.getElementById('viewer-title')!;
+      document.querySelectorAll<HTMLButtonElement>('[data-full]').forEach((btn) =>
+        btn.addEventListener('click', () => {
+          img.src = btn.dataset.full!;
+          img.alt = `Certificate: ${btn.dataset.title}`;
+          caption.textContent = btn.dataset.title ?? '';
+          viewer.showModal();
+        }),
+      );
+      viewer.addEventListener('click', (e) => { if (e.target === viewer) viewer.close(); });
+
+      // Underline the current section in the header nav.
+      const links = new Map([...document.querySelectorAll<HTMLAnchorElement>('[data-nav]')].map((a) => [a.dataset.nav, a]));
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => {
+          if (!e.isIntersecting || !links.has(e.target.id)) return;
+          links.forEach((a) => a.removeAttribute('aria-current'));
+          links.get(e.target.id)!.setAttribute('aria-current', 'true');
+        }),
+        { rootMargin: '-45% 0px -50% 0px' },
+      );
+      document.querySelectorAll('main > section').forEach((s) => io.observe(s));
+
+      // Close the mobile index after choosing a section.
+      document.querySelectorAll('.menu nav a').forEach((a) =>
+        a.addEventListener('click', () => a.closest('details')?.removeAttribute('open')),
+      );
+    </script>
+  </body>
+</html>

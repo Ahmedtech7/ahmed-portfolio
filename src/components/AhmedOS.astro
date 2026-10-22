@@ -1,0 +1,129 @@
+---
+import { files, tokenize, render } from '../ahmedos';
+
+// Server-rendered first file: what no-JS and reduced-motion visitors see, and what keeps the screen from ever being empty.
+const first = render(tokenize(files[0]!.code), Infinity, false);
+const lineCount = files[0]!.code.split('\n').length;
+---
+<section id="ahmed-os" class="os sec-dark" aria-labelledby="os-title">
+  <div class="wrap os-head">
+    <p class="mono os-kicker">Ahmed OS — Just for fun</p>
+    <h2 id="os-title">A Little Code. <em>A Little Chaos.</em></h2>
+    <p class="os-note muted">Just for fun, lol. Illustrative jokes, not real code.</p>
+  </div>
+
+  <div class="os-stage">
+    <ul class="os-chips mono" aria-hidden="true">
+      <li><i class="dot ok"></i>python · running</li>
+      <li><i class="dot hot"></i>humor mode · on</li>
+      <li><i class="dot warm"></i>coffee · required</li>
+      <li><i class="dot cool"></i>just for fun lol</li>
+    </ul>
+
+    <div class="laptop" aria-hidden="true">
+      <div class="lid">
+        <span class="cam"></span>
+        <div class="screen" data-os>
+          <div class="titlebar"><span class="lights"><i></i><i></i><i></i></span><span>ahmed-os — ~/just-for-fun</span><span></span></div>
+          <div class="tabs">
+            {files.map((f, i) => (
+              <button type="button" tabindex="-1" class={i === 0 ? 'tab on' : 'tab'} data-tab={i}><i class="py"></i>{f.name}</button>
+            ))}
+          </div>
+          <div class="editor">
+            <div class="gutter" data-gutter>{Array.from({ length: lineCount }, (_, i) => <div>{i + 1}</div>)}</div>
+            <div class="code" data-code set:html={first.html} />
+          </div>
+          <div class="status">
+            <span><i class="dot ok"></i>python · running</span>
+            <span class="hide-sm">main</span>
+            <span class="push" data-pos>Ln {first.row}, Col {first.col}</span>
+            <span class="hide-sm">UTF-8</span>
+            <span>humor mode · on</span>
+          </div>
+        </div>
+      </div>
+      <div class="base">
+        <div class="keys"></div>
+        <div class="pad"></div>
+        <div class="lip"></div>
+      </div>
+    </div>
+    <div class="os-shadow" aria-hidden="true"></div>
+  </div>
+
+  <div class="sr-only">
+    <p>The laptop types four joke Python files:</p>
+    {files.map((f) => (<><p>{f.name}</p><pre>{f.code}</pre></>))}
+  </div>
+</section>
+
+<script>
+  import { files, tokenize, render, charCount } from '../ahmedos';
+
+  const screen = document.querySelector<HTMLElement>('[data-os]')!;
+  const codeEl = screen.querySelector<HTMLElement>('[data-code]')!;
+  const gutter = screen.querySelector<HTMLElement>('[data-gutter]')!;
+  const pos = screen.querySelector<HTMLElement>('[data-pos]')!;
+  const tabs = [...screen.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+  const parsed = files.map((f) => ({ lines: tokenize(f.code), total: charCount(f.code), raw: Array.from(f.code) }));
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let file = 0;
+  let typed = 0;
+  let timer = 0;
+  let visible = false;
+
+  function paint(n: number) {
+    const out = render(parsed[file]!.lines, n);
+    codeEl.innerHTML = out.html;
+    pos.textContent = `Ln ${out.row}, Col ${out.col}`;
+    gutter.innerHTML = Array.from({ length: Math.max(out.row, 1) }, (_, i) => `<div>${i + 1}</div>`).join('');
+  }
+
+  function select(i: number) {
+    file = i;
+    typed = 0;
+    tabs.forEach((t, j) => t.classList.toggle('on', j === i));
+  }
+
+  function step() {
+    const f = parsed[file]!;
+    if (typed >= f.total) {
+      // Pause so the joke can land, then move to the next tab.
+      timer = window.setTimeout(() => { select((file + 1) % files.length); paint(0); schedule(450); }, 2800);
+      return;
+    }
+    typed++;
+    paint(typed);
+    const ch = f.raw[typed - 1];
+    schedule(ch === '\n' ? 260 : ch === ' ' ? 35 : 45 + Math.random() * 45);
+  }
+
+  function schedule(ms: number) {
+    clearTimeout(timer);
+    if (visible && !document.hidden) timer = window.setTimeout(step, ms);
+  }
+
+  tabs.forEach((t, i) =>
+    t.addEventListener('click', () => {
+      clearTimeout(timer);
+      select(i);
+      if (still) { paint(Infinity); return; }
+      paint(0);
+      schedule(300);
+    }),
+  );
+
+  if (!still) {
+    // Type only while the laptop is on screen; stop entirely when it is not.
+    new IntersectionObserver(([e]) => {
+      visible = !!e?.isIntersecting;
+      if (visible) {
+        if (typed === 0) paint(0);
+        schedule(400);
+      } else clearTimeout(timer);
+    }, { threshold: 0.2 }).observe(screen);
+    document.addEventListener('visibilitychange', () => (document.hidden ? clearTimeout(timer) : schedule(300)));
+  }
+</script>

@@ -1,0 +1,9 @@
+---
+import { Image } from 'astro:assets';
+import type { Logo } from '../data';
+
+interface Props { logo: Logo; height: number }
+const { logo, height } = Astro.props;
+const cls = logo.kind === 'tile' ? 'logo-tile' : logo.kind === 'iu' ? 'logo-iu' : undefined;
+---
+<Image src={logo.src} alt={logo.alt} height={height * 2} class={cls} loading="lazy" decoding="async" />

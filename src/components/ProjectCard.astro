@@ -1,0 +1,40 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import type { Project } from '../data';
+
+interface Props { p: Project; i: number; class: string; sizes: string }
+const { p, i, class: cls, sizes } = Astro.props;
+const newTab = { target: '_blank', rel: 'noopener noreferrer' };
+---
+<article class={`${cls} reveal`} id={`project-${p.id}`} aria-labelledby={`p-${p.id}`}>
+  <a class="frame" href={p.live} {...newTab}>
+    <span class="bar" aria-hidden="true"><span><i></i>{new URL(p.live).host}</span><span>↗</span></span>
+    <Picture
+      src={p.shot}
+      alt={`Screenshot of the live ${p.title} application`}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[480, 720, 960, 1440]}
+      sizes={sizes}
+      quality={70}
+      loading="lazy"
+      decoding="async"
+    />
+    <span class="open">Open live app ↗<span class="sr-only"> {p.title} (opens in a new tab)</span></span>
+  </a>
+  <div class="proj-text">
+    <p class="cat mono">{p.category}</p>
+    <h3 id={`p-${p.id}`}><span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><a href={p.live} {...newTab}>{p.title}<span class="sr-only"> (opens in a new tab)</span></a></h3>
+    <p>{p.blurb}</p>
+    <ul class="tags" aria-label="Technologies">{p.tags.map((t) => <li class="tag">{t}</li>)}</ul>
+    <div class="proj-links">
+      <a class="btn primary" href={p.live} {...newTab}>Live demo <span class="arrow" aria-hidden="true">↗</span><span class="sr-only"> of {p.title} (opens in a new tab)</span></a>
+      {p.repo ? (
+        <a class="btn" href={p.repo} {...newTab}><Icon name="github" /> GitHub<span class="sr-only"> repository for {p.title} (opens in a new tab)</span></a>
+      ) : (
+        <span class="private"><Icon name="github" /> Private repository</span>
+      )}
+    </div>
+  </div>
+</article>
