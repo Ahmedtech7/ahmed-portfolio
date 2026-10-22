@@ -1,0 +1,62 @@
+---
+// Two small jokes: the laptop's `recruiter.tries_to_leave()` actually fires, and the Konami code unlocks an achievement.
+---
+<aside class="nudge" data-nudge hidden aria-labelledby="nudge-title">
+  <p class="nudge-code mono" aria-hidden="true">recruiter.tries_to_leave() → True</p>
+  <p id="nudge-title" class="nudge-title">Wait! Have you seen my projects? <span aria-hidden="true">👀</span></p>
+  <div class="nudge-acts">
+    <a class="nudge-yes" href="#projects" data-nudge-close>Show me</a>
+    <button type="button" class="nudge-no" data-nudge-close>I’m good</button>
+  </div>
+</aside>
+
+<div class="achievement" data-achievement hidden role="status">
+  <span class="trophy" aria-hidden="true">🏆</span>
+  <span><b>Achievement unlocked</b>You found the secret. Coffee’s on me.</span>
+</div>
+
+<script>
+  const nudge = document.querySelector<HTMLElement>('[data-nudge]')!;
+  const close = () => { nudge.classList.remove('show'); setTimeout(() => (nudge.hidden = true), 400); };
+  nudge.querySelectorAll('[data-nudge-close]').forEach((el) => el.addEventListener('click', close));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !nudge.hidden) close(); });
+
+  // Once per visit, on desktop only: the pointer leaving through the top edge means "heading for the tab bar".
+  let shown = false;
+  try { shown = sessionStorage.getItem('nudged') === '1'; } catch { /* storage blocked: still show at most once per page view */ }
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.addEventListener('mouseout', (e) => {
+      if (shown || e.relatedTarget || e.clientY > 0 || scrollY < 400) return;
+      shown = true;
+      try { sessionStorage.setItem('nudged', '1'); } catch { /* ignore */ }
+      nudge.hidden = false;
+      requestAnimationFrame(() => nudge.classList.add('show'));
+    });
+  }
+
+  // Konami code → coffee rain + achievement.
+  const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  const badge = document.querySelector<HTMLElement>('[data-achievement]')!;
+  let pos = 0;
+  addEventListener('keydown', (e) => {
+    pos = e.key.toLowerCase() === code[pos]!.toLowerCase() ? pos + 1 : e.key === code[0] ? 1 : 0;
+    if (pos < code.length) return;
+    pos = 0;
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      for (let i = 0; i < 26; i++) {
+        const cup = document.createElement('span');
+        cup.className = 'cup';
+        cup.textContent = '☕';
+        cup.style.left = `${Math.random() * 100}vw`;
+        cup.style.animationDelay = `${Math.random() * 1.2}s`;
+        cup.style.fontSize = `${1.4 + Math.random() * 1.8}rem`;
+        cup.setAttribute('aria-hidden', 'true');
+        document.body.append(cup);
+        setTimeout(() => cup.remove(), 4200);
+      }
+    }
+    badge.hidden = false;
+    requestAnimationFrame(() => badge.classList.add('show'));
+    setTimeout(() => { badge.classList.remove('show'); setTimeout(() => (badge.hidden = true), 400); }, 4000);
+  });
+</script>
