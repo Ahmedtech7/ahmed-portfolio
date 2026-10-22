@@ -1,38 +1,12 @@
-/** Ahmed OS: four illustrative joke files typed in the laptop editor. Not real or executed code. */
+/** Ahmed OS: an illustrative joke file typed in the laptop editor. Not real or executed code. */
 export const files = [
   {
-    name: 'ahmed_core.py',
-    code: `ahmed = AIEngineer()
+    name: 'recruiter.py',
+    code: `if recruiter.tries_to_leave():
+    ahmed.say("Wait! Have you seen my projects? 👀")
+    show(projects, top_1, top_2)
 
-ahmed.sleep()       # Feature not found
-ahmed.give_up()     # Permission denied
-ahmed.build()       # Always running
-
-# Giving up is not installed.`,
-  },
-  {
-    name: 'brain_train.py',
-    code: `model.train(on="ambition")
-future = model.predict("Ahmed")
-
-print(future)
-# Output: Beyond expectations 🚀`,
-  },
-  {
-    name: 'life_debug.py',
-    code: `bugs = ["sleep", "deadlines", "coffee"]
-
-fix(bugs)
-
-# Error: coffee dependency missing ☕`,
-  },
-  {
-    name: 'coffee_model.py',
-    code: `while coffee > 0:
-    ideas += 1
-    sleep -= 1
-
-# RuntimeError: Need more coffee.`,
+contact.open()   # just in case 😄`,
   },
 ];
 

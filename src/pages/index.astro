@@ -180,7 +180,7 @@ const jsonLd = {
       <!-- 04 Projects -->
       <section id="projects" aria-labelledby="projects-title">
         <div class="wrap">
-          <header class="sec-head"><span class="num">04</span><h2 id="projects-title">Projects</h2><span class="deck">{projects.length} AI applications, live on Vercel. Click any screenshot to open the real app.</span></header>
+          <header class="sec-head"><span class="num">04</span><h2 id="projects-title">What I’ve Built</h2><span class="deck">{projects.length} AI applications, live on Vercel. Click any screenshot to open the real app.</span></header>
         </div>
         <div class="wrap proj-grid">
           {projects.map((p, i) => <ProjectCard p={p} i={i} total={projects.length} />)}
@@ -270,7 +270,7 @@ const jsonLd = {
       <!-- 08 Certifications -->
       <section id="certifications" aria-labelledby="certifications-title">
         <div class="wrap">
-          <header class="sec-head"><span class="num">08</span><h2 id="certifications-title">Certifications</h2><span class="deck mono">Original certificates · click to enlarge</span></header>
+          <header class="sec-head"><span class="num">08</span><h2 id="certifications-title">What I’ve Earned</h2><span class="deck mono">Original certificates · click to enlarge</span></header>
           <ul class="certs">
             {certificates.map((c, i) => (
               <li class="cert reveal">
@@ -315,7 +315,7 @@ const jsonLd = {
             <p class="mono">09 — Contact</p>
             <p class="status"><span class="open-dot" aria-hidden="true"></span>Open to work — AI, machine learning and software engineering roles</p>
           </div>
-          <h2 id="contact-title">Let’s build something <em>intelligent</em>.</h2>
+          <h2 id="contact-title">Let’s <em>Talk</em>.</h2>
           <div class="mail">
             <a class="mail-link" href={`mailto:${person.email}`}>{person.email}<span class="arrow" aria-hidden="true">↗</span></a>
             <button type="button" class="copy" data-copy={person.email}><span data-label>Copy email</span></button>

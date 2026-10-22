@@ -107,7 +107,7 @@ button { font: inherit; color: inherit; }
 section { position: relative; padding-block: clamp(5rem, 10vw, 9rem); }
 .sec-head { display: grid; gap: 1rem; margin-bottom: clamp(3rem, 6vw, 5rem); }
 .sec-head .num { font: 0.82rem var(--mono); letter-spacing: 0.08em; color: var(--blue); }
-.sec-head h2 { font: 700 clamp(3.4rem, 9vw, 9rem)/0.86 var(--display); letter-spacing: -0.045em; }
+.sec-head h2 { font: 700 clamp(2.5rem, 5.2vw, 5rem)/0.95 var(--display); letter-spacing: -0.04em; }
 .sec-head .deck { max-width: 46ch; color: var(--muted); font-size: 1.1rem; }
 @media (min-width: 1000px) { .sec-head { grid-template-columns: 1fr auto; align-items: end; } .sec-head .num { grid-column: 1 / -1; } .sec-head .deck { text-align: right; } }
 
@@ -479,7 +479,7 @@ a:hover .arrow { transform: translate(2px, -2px); }
 .open-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #5ff0a4; box-shadow: 0 0 0 4px rgb(95 240 164 / 0.22); }
 @media (prefers-reduced-motion: no-preference) { .open-dot { animation: pulse 2.4s ease-in-out infinite; } }
 @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgb(95 240 164 / 0); } }
-.contact h2 { margin-top: clamp(2.5rem, 5vw, 4rem); max-width: 14ch; font: 800 clamp(3.2rem, 8vw, 8rem)/0.88 var(--display); letter-spacing: -0.055em; color: #fff; }
+.contact h2 { margin-top: clamp(2rem, 4vw, 3rem); max-width: 14ch; font: 800 clamp(3rem, 6.5vw, 6.2rem)/0.9 var(--display); letter-spacing: -0.055em; color: #fff; }
 .contact h2 em { font-style: normal; color: #8f9cff; }
 .mail { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(1.5rem, 3vw, 2rem); border-bottom: 1px solid rgb(242 243 255 / 0.2); }
 .mail-link { position: relative; display: inline-flex; align-items: baseline; gap: 0.6rem; font: 700 clamp(1.7rem, 4.6vw, 4.2rem)/1.05 var(--display); letter-spacing: -0.035em; color: #fff; overflow-wrap: anywhere; }
